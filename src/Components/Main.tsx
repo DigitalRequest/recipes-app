@@ -7,7 +7,7 @@ import DishTypeSelector from './DishTypeSelector';
 const Main = () => {
     const [recipeName, setRecipeName] = useState('');
     const [ingredients, setIngredients] = useState<number>(1);
-    const [dishType, setDishType] = useState<string[]>([""]);
+    const [dishType, setDishType] = useState<string[]>([]);
     const [recipes, setRecipes] = useState([]);
 
     const dishTypes = [

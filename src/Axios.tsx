@@ -3,7 +3,7 @@ import axios from "axios";
 const getData = async (query: string, numIngredients: number, dishType: string[]) => {
     try {
         const params = {
-            q: query,
+            q: query !== '' ? query : undefined,
             ingr: numIngredients || '',
             // Add dishType only if it's not empty
             ...(dishType.length > 0 && { dishType: dishType.join(',') }),
