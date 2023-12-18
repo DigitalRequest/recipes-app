@@ -16,7 +16,14 @@ const Navbar = () => {
             </div>
             <div className="navbar-end is-flex is-justify-content-center">
                 <div className="navbar-item">
-                    <p className="label is-flex g-1">Made with <img src="../../public/vite.svg" alt="" /> + <img src="src/assets/react.svg" alt="" /></p>
+                    <p className="label is-flex g-1">
+                        Made with
+                        <img src="../../public/vite.svg" alt="Vite logo" /> +
+                        <img src="src/assets/react.svg" alt="React logo" /> +
+                        <a href="https://www.edamam.com/">
+                            <img src="https://www.edamam.com/assets/img/small-logo.png" alt="Edamam logo" />
+                        </a>
+                    </p>
                 </div>
             </div>
         </nav>
