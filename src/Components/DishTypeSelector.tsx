@@ -1,63 +1,40 @@
 import React, { useState } from 'react';
 
 interface DishTypeSelectorProps {
-    setDish: (selectedDishType: string) => void;
+    dishType: string,
+    onClick?: () => void;
 }
 
-const DishTypeSelector: React.FC<DishTypeSelectorProps> = ({ setDish }) => {
-    const [dishType, setDishType] = useState("");
+const DishTypeSelector: React.FC<DishTypeSelectorProps> = ({ dishType, onClick }) => {
+    const handleButtonClick = (id: string) => {
+        if (onClick) {
+            onClick();
 
-    const dishTypes = [
-        "Alcohol Cocktail",
-        "Biscuits and Cookies",
-        "Bread",
-        "Cereals",
-        "Condiments and Sauces",
-        "Desserts",
-        "Drinks",
-        "Egg",
-        "Ice Cream and Custard",
-        "Main Course",
-        "Pancake",
-        "Pasta",
-        "Pastry",
-        "Pies and Tarts",
-        "Pizza",
-        "Preps",
-        "Preserve",
-        "Salad",
-        "Sandwiches",
-        "Seafood",
-        "Side Dish",
-        "Soup",
-        "Special Occasions",
-        "Starter",
-        "Sweets"
-    ];
+            let button = document.getElementById(id);
 
-    const handleButtonClick = (selectedDishType: string) => {
-        setDishType(selectedDishType);
+            if (button?.classList.contains("is-primary")) {
+                button?.classList.remove("is-primary");
+            } else {
+                button?.classList.add("is-primary");
+            }
+        }
+
+
+        return dishType;
     };
 
+
     return (
-        <div className="field">
-            <label className="label">Dish Type</label>
-            <div className="control">
-                <div className="buttons has-addons is-flex g-0">
-                    {dishTypes.map((type) => (
-                        <button
-                            type="button"
-                            key={type}
-                            className={`button ${dishType.includes(type) ? 'is-primary' : ''}`}
-                            onClick={() => handleButtonClick(type)}
-                        >
-                            {type}
-                        </button>
-                    ))}
-                </div>
-            </div>
-        </div>
+        <button
+            type="button"
+            className={`button`}
+            onClick={() => handleButtonClick("id" + dishType)}
+            id={"id" + dishType}
+        >
+            {dishType}
+        </button>
     );
 };
 
 export default DishTypeSelector;
+

@@ -7,18 +7,47 @@ import DishTypeSelector from './DishTypeSelector';
 const Main = () => {
     const [recipeName, setRecipeName] = useState('');
     const [ingredients, setIngredients] = useState('');
-    const [dishType, setDishType] = useState([""]);
+    const [dishType, setDishType] = useState<string[]>([]);
     const [recipes, setRecipes] = useState([]);
+
+    const dishTypes = [
+        "Alcohol Cocktail",
+        "Biscuits and Cookies",
+        "Bread",
+        "Cereals",
+        "Condiments and Sauces",
+        "Desserts",
+        "Drinks",
+        "Egg",
+        "Ice Cream and Custard",
+        "Main Course",
+        "Pancake",
+        "Pasta",
+        "Pastry",
+        "Pies and Tarts",
+        "Pizza",
+        "Preps",
+        "Preserve",
+        "Salad",
+        "Sandwiches",
+        "Seafood",
+        "Side Dish",
+        "Soup",
+        "Special Occasions",
+        "Starter",
+        "Sweets"
+    ];
 
     let fetchedRecipes: any = [];
 
     const handleRecipeSearch = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-
         if (recipeName != "") {
 
-            fetchedRecipes = await getData(recipeName).then((res) => { return res; }).catch((err) => { console.log(err) });
+            fetchedRecipes = await getData(recipeName)
+                .then((res) => { return res; })
+                .catch((err) => { console.log(err) });
 
             setRecipes(fetchedRecipes || []);
         }
@@ -26,11 +55,6 @@ const Main = () => {
         setRecipeName('');
         setIngredients('');
         setDishType([]);
-    };
-
-    const handleDishTypeChange = (selectedDishType: string) => {
-        console.log('Updating dishType:', "askdjlkasd");
-        setDishType([selectedDishType]);
     };
 
     function extractProps(recipe: any) {
@@ -69,7 +93,7 @@ const Main = () => {
                                 className="textarea"
                                 value={ingredients}
                                 onChange={(e) => setIngredients(e.target.value)}
-                                rows={4} // Set the number of rows according to your preference
+                                rows={4}
                                 placeholder="Enter ingredients, one per line"
                             />
                         </div>
@@ -78,9 +102,22 @@ const Main = () => {
 
                     <div className="field">
                         <div className="control">
-                            <DishTypeSelector setDish={function (selectedDishType: string): void {
-                                throw new Error('Function not implemented.');
-                            } }  />
+                            <div className="field">
+                                <label className="label">Dish Type</label>
+                                <div className="control">
+                                    <div className="buttons has-addons g-0">
+                                        {dishTypes.map((type) => (
+                                            <DishTypeSelector dishType={type} onClick={() => {
+                                                if (!dishType.includes(type)) {
+                                                    setDishType([...dishType, type]);
+                                                } else {
+                                                    setDishType(dishType.filter(item => item !== type));
+                                                }
+                                            }} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -107,7 +144,7 @@ const Main = () => {
                                         title={transformedRecipe.title}
                                         image={transformedRecipe.image}
                                         description={transformedRecipe.description}
-                                        ingredients={transformedRecipe.ingredients || ['bacon', 'bacon', 'bacon']}
+                                        ingredients={transformedRecipe.ingredients}
                                     />
                                 </div>
                             );
