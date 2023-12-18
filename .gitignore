@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 src/Axios.tsx
+server.cjs
 dist
 dist-ssr
 *.local

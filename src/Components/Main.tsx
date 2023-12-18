@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { getData } from '../Axios';
 
 import Food from './Food';
@@ -6,7 +6,7 @@ import DishTypeSelector from './DishTypeSelector';
 
 const Main = () => {
     const [recipeName, setRecipeName] = useState('');
-    const [ingredients, setIngredients] = useState('');
+    const [ingredients, setIngredients] = useState<number>(0);
     const [dishType, setDishType] = useState<string[]>([]);
     const [recipes, setRecipes] = useState([]);
 
@@ -43,9 +43,9 @@ const Main = () => {
     const handleRecipeSearch = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
 
-        if (recipeName != "") {
+        if (recipeName != "" || dishType.length > 0) {
 
-            fetchedRecipes = await getData(recipeName)
+            fetchedRecipes = await getData(recipeName, ingredients, dishType)
                 .then((res) => { return res; })
                 .catch((err) => { console.log(err) });
 
@@ -53,7 +53,7 @@ const Main = () => {
         }
 
         setRecipeName('');
-        setIngredients('');
+        setIngredients(0);
         setDishType([]);
     };
 
@@ -87,13 +87,18 @@ const Main = () => {
                     </div>
 
                     <div className="field">
-                        <label className="label">Ingredients</label>
+                        <label className="label">Quantity of Ingredients</label>
                         <div className="control">
-                            <textarea
-                                className="textarea"
+                            <input
+                                type="text"
+                                className="input"
                                 value={ingredients}
-                                onChange={(e) => setIngredients(e.target.value)}
-                                rows={4}
+                                onChange={(e) => {
+                                    const value = parseInt(e.target.value);
+                                    if (!isNaN(value)) {
+                                        setIngredients(value);
+                                    }
+                                }}
                                 placeholder="Enter ingredients, one per line"
                             />
                         </div>
@@ -107,7 +112,7 @@ const Main = () => {
                                 <div className="control">
                                     <div className="buttons has-addons g-0">
                                         {dishTypes.map((type) => (
-                                            <DishTypeSelector dishType={type} onClick={() => {
+                                            <DishTypeSelector key={type} dishType={type} onClick={() => {
                                                 if (!dishType.includes(type)) {
                                                     setDishType([...dishType, type]);
                                                 } else {
