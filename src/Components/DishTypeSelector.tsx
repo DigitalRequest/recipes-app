@@ -12,10 +12,10 @@ const DishTypeSelector: React.FC<DishTypeSelectorProps> = ({ dishType, onClick }
 
             let button = document.getElementById(id);
 
-            if (button?.classList.contains("is-primary")) {
-                button?.classList.remove("is-primary");
+            if (button?.classList.contains("is-info")) {
+                button?.classList.remove("is-info");
             } else {
-                button?.classList.add("is-primary");
+                button?.classList.add("is-info");
             }
         }
 

@@ -48,15 +48,23 @@ const Main = () => {
             try {
                 fetchedRecipes = await getData(recipeName, ingredients, dishType);
 
-                console.log(fetchedRecipes);
                 setRecipes(fetchedRecipes || []);
+                
+                if (recipes.length == 0) {
+                    let noFound = document.createElement('h1');
+                    
+                    noFound.textContent = "No Recipes Where Found 😔";
+                    noFound.classList.add("label", "is-large");
+
+                    document.getElementById("RecipesFound")?.append(noFound);
+                }
             } catch (err) {
                 console.error(err);
             }
         }
 
         setRecipeName('');
-        setIngredients(0);
+        setIngredients(1);
         setDishType([]);
     };
 
@@ -138,7 +146,7 @@ const Main = () => {
                 </form>
             </div>
             <section className="container is-fluid p-6">
-                <div className="columns is-multiline is-justify-content-center">
+                <div className="columns is-multiline is-justify-content-center" id="RecipesFound">
                     {recipes.length > 0 && (
                         recipes.map((recipe: any, index: number) => {
                             // Call extractProps function to transform the recipe
