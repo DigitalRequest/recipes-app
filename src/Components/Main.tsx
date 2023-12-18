@@ -6,8 +6,8 @@ import DishTypeSelector from './DishTypeSelector';
 
 const Main = () => {
     const [recipeName, setRecipeName] = useState('');
-    const [ingredients, setIngredients] = useState<number>(0);
-    const [dishType, setDishType] = useState<string[]>([]);
+    const [ingredients, setIngredients] = useState<number>(1);
+    const [dishType, setDishType] = useState<string[]>([""]);
     const [recipes, setRecipes] = useState([]);
 
     const dishTypes = [
@@ -45,11 +45,14 @@ const Main = () => {
 
         if (recipeName != "" || dishType.length > 0) {
 
-            fetchedRecipes = await getData(recipeName, ingredients, dishType)
-                .then((res) => { return res; })
-                .catch((err) => { console.log(err) });
+            try {
+                fetchedRecipes = await getData(recipeName, ingredients, dishType);
 
-            setRecipes(fetchedRecipes || []);
+                console.log(fetchedRecipes);
+                setRecipes(fetchedRecipes || []);
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         setRecipeName('');
